@@ -1,0 +1,19 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "KR3gmU3Z5pdR7Mj+WsicPz4GUWI=",
+			"path": "github.com/godbus/dbus",
+			"revision": "5f1bd775722e6927aef8a0b2940ae5a5ba76255c",
+			"revisionTime": "2018-06-13T20:58:04Z"
+		},
+		{
+			"checksumSHA1": "BLJGI0BKQkzUrZgwBago9eiXiao=",
+			"path": "github.com/sqp/pulseaudio",
+			"revision": "29ac6bfa231cb9de7f576c671c095fd8161d52e5",
+			"revisionTime": "2018-09-16T17:52:00Z"
+		}
+	],
+	"rootPath": "github.com/mechmind/pa-switch-sink"
+}
