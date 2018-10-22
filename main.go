@@ -95,7 +95,7 @@ func doSwitch(client *pulseaudio.Client, sinks []string) error {
 	found := false
 	for _, name := range sinks {
 		if _, ok := sinkNameMap[name]; !ok {
-			log.Print("can't find sink name '%v'", name)
+			log.Printf("can't find sink name '%v'", name)
 		}
 
 		if currentSink == name {
