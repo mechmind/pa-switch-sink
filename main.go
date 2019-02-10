@@ -19,6 +19,7 @@ func main() {
 
 func switchSink() error {
 	sinksFlag := flag.String("sinks", "", "sinks to switch")
+	lastOnlyFlag := flag.Bool("last-only", false, "switch default sink but only last stream")
 	flag.Parse()
 
 	rawSinks := strings.Split(*sinksFlag, ",")
@@ -52,10 +53,10 @@ func switchSink() error {
 	}
 	defer pulse.Close()
 
-	return doSwitch(pulse, sinks)
+	return doSwitch(pulse, sinks, *lastOnlyFlag)
 }
 
-func doSwitch(client *pulseaudio.Client, sinks []string) error {
+func doSwitch(client *pulseaudio.Client, sinks []string, lastOnly bool) error {
 	// find current default sink
 	currentSinks, err := client.Core().ListPath("Sinks")
 	if err != nil {
@@ -129,6 +130,10 @@ func doSwitch(client *pulseaudio.Client, sinks []string) error {
 	streams, err := client.Core().ListPath("PlaybackStreams")
 	if err != nil {
 		return fmt.Errorf("can't list current streams: %v", err)
+	}
+
+	if lastOnly {
+		streams = streams[len(streams)-1:]
 	}
 
 	for _, stream := range streams {

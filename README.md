@@ -10,3 +10,9 @@ Usage:
 `pa-switch-sink -sinks jack,rtp`
 
 Program will find current default sink and chose next one in list.
+
+`pa-switch-sink -sinks jack,rtp -last-only`
+
+When `-last-only` flag is set only default sink and last active stream will be
+switched to another sink.
+
