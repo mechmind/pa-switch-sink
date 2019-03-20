@@ -7,12 +7,12 @@ sink. Intended to use as bound to hotkey cmd.
 Usage:
 ======
 
-`pa-switch-sink -sinks jack,rtp`
+`pa-switch-sink [-sinks jack,rtp]`
 
-Program will find current default sink and chose next one in list.
+Program will find current default sink and chose next one in the list. If the
+list of sinks is empty, pa-switch-sink will go through all available sinks.
 
-`pa-switch-sink -sinks jack,rtp -last-only`
+`pa-switch-sink [-sinks jack,rtp] -last-only`
 
 When `-last-only` flag is set only default sink and last active stream will be
 switched to another sink.
-

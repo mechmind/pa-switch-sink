@@ -30,10 +30,6 @@ func switchSink() error {
 		}
 	}
 
-	if len(sinks) == 0 {
-		return fmt.Errorf("no sinks to choose from")
-	}
-
 	// Load pulseaudio DBus module if needed.
 	isLoaded, err := pulseaudio.ModuleIsLoaded()
 	if err != nil {
@@ -63,11 +59,6 @@ func doSwitch(client *pulseaudio.Client, sinks []string, lastOnly bool) error {
 		return err
 	}
 
-	if len(sinks) == 0 {
-		log.Print("no sinks available")
-		return nil
-	}
-
 	var currentSink string
 	// ignore error if no fallback sink
 	currentSinkPath, _ := client.Core().ObjectPath("FallbackSink")
@@ -80,6 +71,10 @@ func doSwitch(client *pulseaudio.Client, sinks []string, lastOnly bool) error {
 
 	sinkNameMap := map[string]dbus.ObjectPath{}
 	sinkPathMap := map[dbus.ObjectPath]string{}
+
+	// fill sinks automatically if user has not specified any
+	fillSinks := len(sinks) == 0
+
 	for _, path := range currentSinks {
 		sink := client.Device(path)
 		name, err := sink.String("Name")
@@ -89,6 +84,10 @@ func doSwitch(client *pulseaudio.Client, sinks []string, lastOnly bool) error {
 
 		sinkNameMap[name] = path
 		sinkPathMap[path] = name
+
+		if fillSinks {
+			sinks = append(sinks, name)
+		}
 	}
 
 	// search for current sink in target sink list
@@ -144,6 +143,8 @@ func doSwitch(client *pulseaudio.Client, sinks []string, lastOnly bool) error {
 			return fmt.Errorf("failed to switch stream '%s' to target '%v': %v", stream, targetSink, err)
 		}
 	}
+
+	log.Printf("switched to sink %q", targetSink)
 
 	return nil
 }
