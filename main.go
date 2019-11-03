@@ -140,7 +140,7 @@ func doSwitch(client *pulseaudio.Client, sinks []string, lastOnly bool) error {
 		dev := client.Stream(stream)
 		err = dev.Call("org.PulseAudio.Core1.Stream.Move", 0, targetPath).Err
 		if err != nil {
-			return fmt.Errorf("failed to switch stream '%s' to target '%v': %v", stream, targetSink, err)
+			log.Printf("failed to switch stream '%s' to target '%v': %v", stream, targetSink, err)
 		}
 	}
 
